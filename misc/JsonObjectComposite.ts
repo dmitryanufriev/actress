@@ -5,6 +5,10 @@ export class JsonObjectComposite {
         this.source = source;
     }
 
+    /**
+     * Simple comment
+     * @returns {any}
+     */
     public merge(): any {
         return this.source.reduce(
             (target: any, current: any) => {
