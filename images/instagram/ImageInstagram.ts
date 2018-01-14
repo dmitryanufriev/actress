@@ -1,10 +1,10 @@
-import {IImageInstagram} from "./IImageInstagram";
+import {IImage} from "../IImage";
 
-export class ImageInstagram implements IImageInstagram {
-    private imgId: string;
-    private imgHref: string;
-    private imgResolution: string;
-    private apiImagesJson: any;
+export class ImageInstagram implements IImage {
+    private readonly imgId: string;
+    private readonly imgHref: string;
+    private readonly imgResolution: string;
+    private readonly apiImagesJson: any;
 
     constructor(id: string, href: string, resolution: string, apiImagesJson: any) {
         this.imgId = id;
