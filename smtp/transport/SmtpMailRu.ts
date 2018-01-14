@@ -1,34 +1,25 @@
-import * as nodemailer from "nodemailer";
-import {IConfiguration} from "../../configuration/IConfiguration";
 import {SmtpMessage} from "../message/SmtpMessage";
 import {ISmtpTransport} from "./ISmtpTransport";
+import {SmtpTransport} from "./SmtpTransport";
 
 export class SmtpMailRu implements ISmtpTransport {
-    private mailru: IConfiguration;
+    private readonly origin: ISmtpTransport;
 
-    constructor(mailru: IConfiguration) {
-        this.mailru = mailru;
+    constructor(user: string, pass: string) {
+        this.origin = new SmtpTransport({
+                host: "smtp.mail.ru",
+                port: 465,
+                auth: {
+                    user,
+                    pass
+                },
+                pool: true,
+                secure: true
+            }
+        );
     }
 
     public async send(message: SmtpMessage): Promise<void> {
-        const transport = nodemailer.createTransport({
-            auth: {
-                pass: this.mailru.value("Password"),
-                user: this.mailru.value("User")
-            },
-            host: this.mailru.value("Server"),
-            pool: true,
-            port: 465,
-            secure: true
-        });
-        const ready = await transport.verify();
-        if (ready) {
-            console.log("Ready to send");
-        } else {
-            console.log("Fail to verify");
-        }
-        await transport.sendMail(
-            message.message()
-        );
+        await this.origin.send(message);
     }
 }
