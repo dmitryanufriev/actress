@@ -3,7 +3,7 @@ import {IOutput} from "../outputs/IOutput";
 import {IActionAsync} from "./IActionAsync";
 
 export class ActOutput implements IActionAsync {
-    private out: IOutput;
+    private readonly out: IOutput;
 
     constructor(output: IOutput) {
         this.out = output;
